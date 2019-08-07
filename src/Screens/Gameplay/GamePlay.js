@@ -5,18 +5,16 @@ import { ButtonAnswer } from '../Utils/FinalFormComponents';
 import Countdown from 'react-countdown-now';
 import * as api from '../Utils/Api';
 
-const Completionist = () => <span>You Ranout of time bro!</span>;
-
 export default class GamePlay extends Component {
     constructor(){
         super();
         this.state={
             select: false,
             data: null,
-            trial: 3,
             date: Date.now() + 30000
         }
         this.user = null;
+        this.trial = 3;
         this.onSelect = this.onSelect.bind(this);
     }
     async componentDidMount(){
@@ -51,9 +49,7 @@ export default class GamePlay extends Component {
             Notification.warning({
                 title: "Your answer is incorrect! Please try again",
             });
-            this.setState(prevState => ({
-                trial: prevState.trial - 1
-            }));
+            this.trial--;
         }
     }
 
@@ -77,11 +73,12 @@ export default class GamePlay extends Component {
                                 }}>
                                     <div className="col-6 offset-3">
                                         <Panel className="text-center bg-white" header={<h3>Question: {data.QuestionID}</h3>} bordered>
-                                        <h3 className="text-center font-weight-bold">You are playing as{this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
+                                        <h3 className="text-center font-weight-bold">You are playing as {this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
                                             <div className="d-flex align-items-center">
                                                 Time left:
                                                 <Countdown date={this.state.date}>
-                                                    <Completionist />
+                                                    You ran out of time!
+                                                     {this.trial--}
                                                 </Countdown>
                                             </div>
                                             <div className="mt-2 text-uppercase font-weight-bold">
