@@ -19,6 +19,12 @@
   color: white;
 }
 
+.app{
+  background-image: url("https://img.lum.dolimg.com/v1/game_container/img/teaserBackground.jpg");
+  background-size: cover;
+  height: 100vh;
+}
+
 .App-link {
   color: #61dafb;
 }
