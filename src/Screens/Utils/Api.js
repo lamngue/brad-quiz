@@ -1,11 +1,12 @@
 import * as axios from 'axios';
 
 const instance = axios.default.create({
-    baseURL: 'https://brad-quiz-backend.herokuapp.com',
+    baseURL: 'https://cors.io/?https://brad-quiz-backend.herokuapp.com',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-    },
+        "Access-Control-Allow-Origin": "*"
+    }
 });
 
 

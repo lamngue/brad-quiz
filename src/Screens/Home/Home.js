@@ -16,9 +16,6 @@ export default class Home extends Component {
         this.loadingBar = React.createRef();
     }
 
-    componentDidMount(){
-        this.setState({ user: JSON.parse(localStorage.getItem("user"))}) ;
-    }
 
     togglePlay = () => {
         this.setState(prevState => ({
@@ -36,10 +33,7 @@ export default class Home extends Component {
     }
 
     render() {
-        if(!this.state.user){
-            return <div>...Loading User</div>
-        }
-        const {user} = this.state;
+        const user = JSON.parse(this.props.location.state.user);
         return (
             <React.Fragment>
                 <div className="ml-2">

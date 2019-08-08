@@ -3,6 +3,7 @@ import {Content, FlexboxGrid, FormGroup, Button, ButtonToolbar, ControlLabel, Pa
 import { Field, Form } from 'react-final-form';
 import { InputField } from '../Utils/FinalFormComponents';
 import LoadingBar from '../Utils/LoadingBar';
+import {Redirect} from 'react-router-dom';
 import * as Api from '../Utils/Api';
 import {
     EmailValid,
@@ -16,10 +17,8 @@ const composeValidators = (...validators) => value =>
 export default class Login extends Component {
     constructor(){
         super();
-        this.state = {
-            user: {}
-        }
         this.loadingBar = React.createRef();
+        this.user = null;
     }
     onSubmit = (values) => {
         this.onSave(values);
@@ -28,9 +27,8 @@ export default class Login extends Component {
     onSave = async (values) => {
         this.loadingBar.current.show();
         const user = await Api.postURL("/register", values);
-        localStorage.setItem("user", JSON.stringify(user.data[0]));
+        this.user = user.data[0];
         this.loadingBar.current.hide();
-        this.props.history.push('/home');
     }
 
     onHandleFormSubmit = (form) => {
@@ -39,6 +37,12 @@ export default class Login extends Component {
     render() {
         return (
             <div>
+                {this.user ? <Redirect to={{
+                    pathname: '/home',
+                    state: { user: this.user }
+                }}
+                /> : 
+                <>
                     <LoadingBar ref={this.loadingBar}></LoadingBar>
                     <Content>
                         <FlexboxGrid justify="center">
@@ -86,6 +90,9 @@ export default class Login extends Component {
                             </FlexboxGrid.Item>
                         </FlexboxGrid>
                     </Content>
+                </>
+                 }
+                   
             </div>
         )
     }
