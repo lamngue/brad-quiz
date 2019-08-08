@@ -13,7 +13,8 @@ export default class GamePlay extends Component {
             select: false,
             data: null,
             date: Date.now() + 30000,
-            trial: 3
+            trial: 3,
+            win: false
         }
         this.user = null;
         this.onSelect = this.onSelect.bind(this);
@@ -43,8 +44,11 @@ export default class GamePlay extends Component {
             this.setState({date: Date.now() + 30000})
             setTimeout(async () => {
                 const newData = await api.postURL('/get-question', this.user);
+                if(newData ==="You win!"){
+                    this.setState({win: true});
+                }
                 this.setState({ data: newData.data[0] });
-            }, 3000);
+            }, 1000);
         }
         else{
             Notification.warning({
@@ -74,6 +78,9 @@ export default class GamePlay extends Component {
                 <h1>Game Over!</h1>
                 <Link to="/">Play Again?</Link>
             </div>
+        }
+        else if(this.state.win){
+            return <div className="text-center font-weight-bold text-white"><h1>Congratulations, you are Brad's true friend!</h1></div>
         }
         const {data} = this.state;
         return (
