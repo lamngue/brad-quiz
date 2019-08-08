@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 
 const instance = axios.default.create({
-    baseURL: 'https://cors.io/?https://brad-quiz-backend.herokuapp.com',
+    baseURL: 'http://localhost:5000',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export function postURL(url, data, extraHeaders = {}){
 }
 
 export function deleteUrl(url, extraHeaders = {}) {
-    return instance.post(url, {
+    return instance.delete(url, {
         method: 'DELETE',
         headers: { ...extraHeaders },
     });

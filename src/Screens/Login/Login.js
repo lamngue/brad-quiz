@@ -17,8 +17,10 @@ const composeValidators = (...validators) => value =>
 export default class Login extends Component {
     constructor(){
         super();
+        this.state = {
+            user: null
+        }
         this.loadingBar = React.createRef();
-        this.user = null;
     }
     onSubmit = (values) => {
         this.onSave(values);
@@ -27,19 +29,20 @@ export default class Login extends Component {
     onSave = async (values) => {
         this.loadingBar.current.show();
         const user = await Api.postURL("/register", values);
-        this.user = user.data[0];
         this.loadingBar.current.hide();
+        this.setState({user: user.data[0]});
     }
 
     onHandleFormSubmit = (form) => {
         form.submit();
     }
     render() {
+        const user = this.state.user;
         return (
             <div>
-                {this.user ? <Redirect to={{
+                {this.state.user ? <Redirect to={{
                     pathname: '/home',
-                    state: { user: this.user }
+                    state: { user: user }
                 }}
                 /> : 
                 <>
