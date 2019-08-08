@@ -3,6 +3,7 @@ import { Panel, Button, Notification, Icon } from 'rsuite';
 import { Field, Form } from 'react-final-form';
 import { ButtonAnswer } from '../Utils/FinalFormComponents';
 import Countdown from 'react-countdown-now';
+import {Link} from 'react-router-dom';
 import * as api from '../Utils/Api';
 
 export default class GamePlay extends Component {
@@ -55,6 +56,12 @@ export default class GamePlay extends Component {
         }
     }
 
+    decreaseTrial(){
+        this.setState(prevState => ({
+            trial: prevState.trial - 1
+        }))
+    }
+
     onHandleFormSubmit = (form) => {
         form.submit();
     }
@@ -63,7 +70,10 @@ export default class GamePlay extends Component {
             return <div className="text-center font-weight-bold"><h1>Loading...</h1></div>
         }
         if(this.state.trial === 0){
-            return <div className="text-center font-weight-bold"><h1>Game Over!</h1></div>
+            return <div className="text-center font-weight-bold">
+                <h1>Game Over!</h1>
+                <Link to="/">Play Again?</Link>
+            </div>
         }
         const {data} = this.state;
         return (
@@ -80,6 +90,7 @@ export default class GamePlay extends Component {
                                             <div className="d-flex align-items-center">
                                                 Time left:
                                                 <Countdown date={this.state.date}>
+                                                    {this.decreaseTrial}
                                                 </Countdown>
                                             </div>
                                             <div className="mt-2 text-uppercase font-weight-bold">

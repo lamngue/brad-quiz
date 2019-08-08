@@ -1,11 +1,11 @@
 import * as axios from 'axios';
 
 const instance = axios.default.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "http://localhost:5000"
+        "Access-Control-Allow-Origin": process.env.REACT_APP_BASE_URL
     }
 });
 
