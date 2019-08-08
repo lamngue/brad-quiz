@@ -11,14 +11,14 @@ export default class GamePlay extends Component {
         this.state={
             select: false,
             data: null,
-            date: Date.now() + 30000
+            date: Date.now() + 30000,
+            trial: 3
         }
         this.user = null;
-        this.trial = 3;
         this.onSelect = this.onSelect.bind(this);
     }
     async componentDidMount(){
-        this.user = JSON.parse(localStorage.getItem("user"));
+        this.user = this.props.location.state.user;
         const newData = await api.postURL('/get-question', this.user);
         this.setState({data: newData.data[0]});
     }
@@ -49,7 +49,9 @@ export default class GamePlay extends Component {
             Notification.warning({
                 title: "Your answer is incorrect! Please try again",
             });
-            this.trial--;
+            this.setState(prevState => ({
+                trial: prevState.trial - 1
+            }))
         }
     }
 
@@ -60,11 +62,12 @@ export default class GamePlay extends Component {
         if(!this.state.data){
             return <div className="text-center font-weight-bold"><h1>Loading...</h1></div>
         }
-        const {data} = this.state;
         if(this.state.trial === 0){
-            return <div className="text-center font-weight-bold"><h1>Game over!</h1></div>
+            return <div className="text-center font-weight-bold"><h1>Game Over!</h1></div>
         }
+        const {data} = this.state;
         return (
+            <div> 
                 <Form onSubmit={this.onSubmit}>
                     {({ handleSubmit, reset, values, form }) => {
                         return (
@@ -72,13 +75,11 @@ export default class GamePlay extends Component {
                                 handleSubmit(event).then(reset);                            
                                 }}>
                                     <div className="col-6 offset-3">
-                                        <Panel className="text-center bg-white" header={<h3>Question: {data.QuestionID}</h3>} bordered>
+                                        <Panel className="text-center bg-white" header={<h3>Question</h3>} bordered>
                                         <h3 className="text-center font-weight-bold">You are playing as {this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
                                             <div className="d-flex align-items-center">
                                                 Time left:
                                                 <Countdown date={this.state.date}>
-                                                    You ran out of time!
-                                                     {this.trial--}
                                                 </Countdown>
                                             </div>
                                             <div className="mt-2 text-uppercase font-weight-bold">
@@ -106,6 +107,9 @@ export default class GamePlay extends Component {
                     }
                 }
             </Form>
+                }
+            </div>
+                
         )
     }
 }
