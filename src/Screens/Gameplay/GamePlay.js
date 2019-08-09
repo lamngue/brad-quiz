@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Panel, Button, Notification, Icon } from 'rsuite';
 import { Field, Form } from 'react-final-form';
 import { ButtonAnswer } from '../Utils/FinalFormComponents';
-import Countdown from 'react-countdown-now';
 import {Link} from 'react-router-dom';
 import * as api from '../Utils/Api';
 
@@ -12,8 +11,8 @@ export default class GamePlay extends Component {
         this.state={
             select: false,
             data: null,
-            date: Date.now() + 30000,
-            trial: 3
+            trial: 3,
+            win: false
         }
         this.user = null;
         this.onSelect = this.onSelect.bind(this);
@@ -40,11 +39,11 @@ export default class GamePlay extends Component {
             Notification.success({
                 title: 'Your answer is correct!',
             });
-            this.setState({date: Date.now() + 30000})
-            setTimeout(async () => {
-                const newData = await api.postURL('/get-question', this.user);
-                this.setState({ data: newData.data[0] });
-            }, 3000);
+            const newData = await api.postURL('/get-question', this.user);
+            if(newData.data === "You win!"){
+                this.setState({win: true});
+            }
+            this.setState({ data: newData.data[0] });
         }
         else{
             Notification.warning({
@@ -75,6 +74,9 @@ export default class GamePlay extends Component {
                 <Link to="/">Play Again?</Link>
             </div>
         }
+        if(this.state.win){
+            return <div className="text-center font-weight-bold text-white"><h1>Congratulations, you are Brad's true friend!</h1><Link to="/">Play Again?</Link></div>
+        }
         const {data} = this.state;
         return (
             <div> 
@@ -84,20 +86,23 @@ export default class GamePlay extends Component {
                             <form onSubmit={async event => {
                                 handleSubmit(event).then(reset);                            
                                 }}>
+                                <div className="d-flex">
                                     <div className="col-6 offset-3">
                                         <Panel className="text-center bg-white" header={<h3>Question</h3>} bordered>
-                                        <h3 className="text-center font-weight-bold">You are playing as {this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
-                                            <div className="d-flex align-items-center">
-                                                Time left:
-                                                <Countdown date={this.state.date}>
-                                                    {this.decreaseTrial}
-                                                </Countdown>
-                                            </div>
+                                            <h3 className="text-center font-weight-bold">You are playing as {this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
                                             <div className="mt-2 text-uppercase font-weight-bold">
                                                 {data.Question}
                                             </div>
                                         </Panel>
                                     </div>
+                                    <div className="col-3">
+                                        <ButtonToolbar>
+                                            <Button appearance="default" disabled>Default</Button>
+                                            <Button appearance="primary" disabled>Primary</Button>
+                                        </ButtonToolbar>
+                                    </div>
+                                </div>
+                                    
                                     <div className="mt-5">
                                         <div className="d-flex align-items-center">
                                             <div className="col-6">
