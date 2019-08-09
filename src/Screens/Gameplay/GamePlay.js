@@ -86,14 +86,23 @@ export default class GamePlay extends Component {
                             <form onSubmit={async event => {
                                 handleSubmit(event).then(reset);                            
                                 }}>
+                                <div className="d-flex">
                                     <div className="col-6 offset-3">
                                         <Panel className="text-center bg-white" header={<h3>Question</h3>} bordered>
-                                        <h3 className="text-center font-weight-bold">You are playing as {this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
+                                            <h3 className="text-center font-weight-bold">You are playing as {this.user.name.split("@").shift()}. You have {this.state.trial} trials left!</h3>
                                             <div className="mt-2 text-uppercase font-weight-bold">
                                                 {data.Question}
                                             </div>
                                         </Panel>
                                     </div>
+                                    <div className="col-3">
+                                        <ButtonToolbar>
+                                            <Button appearance="default" disabled>Default</Button>
+                                            <Button appearance="primary" disabled>Primary</Button>
+                                        </ButtonToolbar>
+                                    </div>
+                                </div>
+                                    
                                     <div className="mt-5">
                                         <div className="d-flex align-items-center">
                                             <div className="col-6">
