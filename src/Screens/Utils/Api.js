@@ -3,8 +3,10 @@ import * as axios from 'axios';
 const instance = axios.default.create({
     baseURL: "https://competent-easley-33a50c.netlify.com",
     headers: {
-        Accept: 'application/json'
-    }
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+    },
+    withCredentials: true
 });
 
 
