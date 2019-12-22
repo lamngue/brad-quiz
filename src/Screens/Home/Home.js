@@ -43,7 +43,6 @@ export default class Home extends Component {
         }
         else{
             const user = this.state.user;
-            console.log(user);
             return (
                 <div>
                     {
