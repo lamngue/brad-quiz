@@ -55,7 +55,7 @@ export default class Home extends Component {
                                 <div className="ml-2">
                                     <Button onClick={this.togglePlay}>{this.state.play ? 'Sound off' : 'Sound On'}</Button>
                                 </div>
-                                <h1 className="text-center text-light">WELCOME TO BRAD'S QUIZ GAME, {user.name.split("@").shift()}</h1>
+                                <h1 className="text-center text-light">WELCOME TO BRAD'S QUIZ GAME</h1>
                                 <h2 className="text-center text-light">Click the below button to play!</h2>
                                 <div className="mx-auto text-center col-5">
                                     <Button size="lg" block color="green" onClick={this.playGame}><Icon icon="play" className="mr-1" />New Game</Button>
