@@ -1,13 +1,12 @@
 import * as axios from 'axios';
 
 const instance = axios.default.create({
-    baseURL: "https://brad-quiz-backend.herokuapp.com/",
+    baseURL: "https://competent-easley-33a50c.netlify.com",
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*" 
-    },
-    withCredentials: true
+    }
 });
 
 
