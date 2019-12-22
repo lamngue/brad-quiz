@@ -4,7 +4,8 @@ const instance = axios.default.create({
     baseURL: "https://brad-quiz-backend.herokuapp.com/",
     headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*" 
     },
     withCredentials: true
 });
