@@ -96,10 +96,8 @@ export default class GamePlay extends Component {
                                         </Panel>
                                     </div>
                                     <div className="col-3">
-                                        <ButtonToolbar>
                                             <Button appearance="default" disabled>Default</Button>
                                             <Button appearance="primary" disabled>Primary</Button>
-                                        </ButtonToolbar>
                                     </div>
                                 </div>
                                     
